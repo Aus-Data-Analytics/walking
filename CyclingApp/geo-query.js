@@ -1,5 +1,6 @@
 var debug = false;
-var file = "dangerzones.json"
+
+var file = "dangerzones.json";
 // These are for testing:
 //var file = "canberra.geojson"
 //var file = "dz1.json"
@@ -12,16 +13,17 @@ var alertAudio = new Audio('alert.mp3');
 var allClearAudio = new Audio('all-clear.mp3');
 
 window.onload = function() {
-	var startPos;
+	$('#warningmsg').text("Loading...");
+	$('#alertdisplay').addClass("unknown");
+			
+			
 	var geoSuccess = function(position) {
-			startPos = position;
 			if (debug) {
 				$('#currentLat').text(startPos.coords.latitude);
 				$('#currentLon').text(startPos.coords.longitude);
 				$('#status').text("Location updated");
 			}
-			$('#warningmsg').text("Unknown");
-			$('#alertdisplay').addClass("Loading...");
+
 			var here = turf.point([position.coords.longitude, position.coords.latitude]);
 			if (turf.inside(here, turf.multiPolygon(dangerZones))) {
 				$('#warningmsg').text("Danger!");
