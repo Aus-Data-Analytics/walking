@@ -4,9 +4,13 @@ var file = "dangerzones.json"
 //var file = "canberra.geojson"
 //var file = "dz1.json"
 //var file = "switzerland.geojson"
+
 var dangerZones;
 var warningPlayed = false;
-var audio = new Audio('alert.mp3');
+var allClearPlayed = true;
+var alertAudio = new Audio('alert.mp3');
+var allClearAudio = new Audio('all-clear.mp3');
+
 window.onload = function() {
 	var startPos;
 	var geoSuccess = function(position) {
@@ -25,8 +29,9 @@ window.onload = function() {
 				$('#alertdisplay').removeClass("noalert");
 				$('#alertdisplay').removeClass("unknown");
 				if (!warningPlayed) {
-					audio.play();
+					alertAudio.play();
 					warningPlayed = true;
+					allClearPlayed = false;
 				}
 
 			} else {
@@ -34,7 +39,11 @@ window.onload = function() {
 				$('#alertdisplay').removeClass("alert");
 				$('#alertdisplay').addClass("noalert");
 				$('#alertdisplay').removeClass("unknown");
-				warningPlayed = false;
+				if (!allClearPlayed) {
+					allClearAudio.play();
+					warningPlayed = false;
+					allClearPlayed = true;
+				}				
 			}
 		}
 	var geoError = function(error) {
