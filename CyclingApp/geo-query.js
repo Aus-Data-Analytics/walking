@@ -11,9 +11,11 @@ window.onload = function() {
 	
 	$('#warning').text("Unk");
 
-	if (localCheckDanger(position)) {
-//	if (1 > 0) {
-		$('#warning').text("Danger!");
+	var here = turf.point([position.coords.longitude, position.coords.latitude]);
+
+	if (turf.inside(here, turf.multiPolygon(dangerZones))) {
+	//if (localCheckDanger(position)) {
+			$('#warning').text("Danger!");
 		} else {
 			$('#warning').text("All cool");
 		}
@@ -32,7 +34,12 @@ window.onload = function() {
   navigator.geolocation.watchPosition(geoSuccess, geoError);
   $('#status').text("Loaded");
   
-  status = $.getJSON("dangerzones.json", function(data) {
+  //file = "canberra.geojson"
+ file = "dangerzones.json"
+  //file = "dz1.json"
+  //file = "switzerland.geojson"
+
+  status = $.getJSON(file, function(data) {
 	  dangerZones = data;
 	  $('#output').text(JSON.stringify(dangerZones));
   });
@@ -45,9 +52,5 @@ localCheckDanger = function (position) {
 			$('warning').text("Called!");
 
      var here = turf.point([position.coords.longitude, position.coords.latitude]);
-	if (turf.inside(here, dangerZones)) {
-		return true;
-	} else {
-		return false;
-	}
+	return turf.inside(here, dangerZones);
 }
