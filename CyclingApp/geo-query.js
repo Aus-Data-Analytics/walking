@@ -16,6 +16,11 @@ window.onload = function() {
 	if (turf.inside(here, turf.multiPolygon(dangerZones))) {
 	//if (localCheckDanger(position)) {
 			$('#warning').text("Danger!");
+			var audio = new Audio('alert.mp3');
+			audio.play();
+			//var x = document.getElementById("alertaudio"); 
+			//x.playAudio();
+			//$('#alertaudio').playAudio()
 		} else {
 			$('#warning').text("All cool");
 		}
@@ -34,8 +39,8 @@ window.onload = function() {
   navigator.geolocation.watchPosition(geoSuccess, geoError);
   $('#status').text("Loaded");
   
-  //file = "canberra.geojson"
- file = "dangerzones.json"
+  file = "canberra.geojson"
+ //file = "dangerzones.json"
   //file = "dz1.json"
   //file = "switzerland.geojson"
 

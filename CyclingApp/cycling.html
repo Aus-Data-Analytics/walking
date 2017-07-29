@@ -4,23 +4,31 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
+  <title>Cycle Safely</title>
   <meta name="description" content="Cycle Safely">
   <meta name="author" content="SAD Analytics">
 
   <link rel="stylesheet" href="app.css">
   <script language="javascript" type="text/javascript" src="jquery-3.2.1.min.js"></script>
-  <script language="javascript" type="text/javascript" src="turf.min.js"></script>
-  <script language="javascript" type="text/javascript" src="geo-query.js"></script>
+  <script language="javascript" type="text/javascript" src="turf.min.js"></script> 
+  <script type="text/javascript" src="geo-query.js"></script>
+  
+  
+  <!--
+  
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+	  
+-->
 
 
+  
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
   <![endif]-->
 </head>
 
 <body>
-  <script src="js/scripts.js"></script>
   
   <div>
 	  <p id="currentLat">Initial value</p>
@@ -32,6 +40,12 @@
 	  <p id="warning"></p>
   </div>
   
+  <div>
+	  <audio id="alertaudio">
+  <source src="alert.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+  </div>
   <div>
 	  <p id="testing"></p>
   </div>
