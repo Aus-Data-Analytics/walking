@@ -29,14 +29,16 @@
 </head>
 
 <body>
-
+<div id='alertdisplay'>
 <h1>Cycling Safety</h1>
 
 <p>Current warning status:</p>
   <div>
-	  <p id="warning"></p>
+	  <p id="warning"><span id="warningmsg">Loading...</span></p>
   </div>
+</div>
 
+<div id="debug" class="nodisplay">
 <h2>Testing information</h2>
 
 <h3>Location</h3>  
@@ -54,5 +56,6 @@
   <div>
 	  <p id="output"></p>
   </div>
+</div>
 </body>
 </html>

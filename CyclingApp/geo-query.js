@@ -1,61 +1,68 @@
+var debug = false;
+var file = "dangerzones.json"
+// These are for testing:
+//var file = "canberra.geojson"
+//var file = "dz1.json"
+//var file = "switzerland.geojson"
 var dangerZones;
-
+var warningPlayed = false;
+var audio = new Audio('alert.mp3');
 window.onload = function() {
-  var startPos;
-  var geoSuccess = function(position) {
-    startPos = position;
-    $('#currentLat').text(startPos.coords.latitude);
-    $('#currentLon').text(startPos.coords.longitude);
-	//document.getElementById('status').innerHTML = "Location updated"
-	$('#status').text("Location updated");
-	
-	$('#warning').text("Unk");
+	var startPos;
+	var geoSuccess = function(position) {
+			startPos = position;
+			if (debug) {
+				$('#currentLat').text(startPos.coords.latitude);
+				$('#currentLon').text(startPos.coords.longitude);
+				$('#status').text("Location updated");
+			}
+			$('#warningmsg').text("Unknown");
+			$('#alertdisplay').addClass("Loading...");
+			var here = turf.point([position.coords.longitude, position.coords.latitude]);
+			if (turf.inside(here, turf.multiPolygon(dangerZones))) {
+				$('#warningmsg').text("Danger!");
+				$('#alertdisplay').addClass("alert");
+				$('#alertdisplay').removeClass("noalert");
+				$('#alertdisplay').removeClass("unknown");
+				if (!warningPlayed) {
+					audio.play();
+					warningPlayed = true;
+				}
 
-	var here = turf.point([position.coords.longitude, position.coords.latitude]);
-
-	if (turf.inside(here, turf.multiPolygon(dangerZones))) {
-	//if (localCheckDanger(position)) {
-			$('#warning').text("Danger!");
-			var audio = new Audio('alert.mp3');
-			audio.play();
-			//var x = document.getElementById("alertaudio"); 
-			//x.playAudio();
-			//$('#alertaudio').playAudio()
-		} else {
-			$('#warning').text("All cool");
+			} else {
+				$('#warningmsg').text("Ride Carefully");
+				$('#alertdisplay').removeClass("alert");
+				$('#alertdisplay').addClass("noalert");
+				$('#alertdisplay').removeClass("unknown");
+				warningPlayed = false;
+			}
 		}
+	var geoError = function(error) {
+			console.log('Error occurred. Error code: ' + error.code);
+			$('#status').text("Error " + error.code)
+			// error.code can be:
+			//   0: unknown error
+			//   1: permission denied
+			//   2: position unavailable (error response from location provider)
+			//   3: timed out
+		};
+	navigator.geolocation.watchPosition(geoSuccess, geoError);
+	if (debug) {
+		$('#status').text("Loaded");
+		$('#debug').removeClass("nodisplay")
 	}
-	
-  
-  var geoError = function(error) {
-    console.log('Error occurred. Error code: ' + error.code);
-   $('#status').text("Error " + error.code)
-    // error.code can be:
-    //   0: unknown error
-    //   1: permission denied
-    //   2: position unavailable (error response from location provider)
-    //   3: timed out
-  };
-  navigator.geolocation.watchPosition(geoSuccess, geoError);
-  $('#status').text("Loaded");
-  
-  file = "canberra.geojson"
- //file = "dangerzones.json"
-  //file = "dz1.json"
-  //file = "switzerland.geojson"
-
-  status = $.getJSON(file, function(data) {
-	  dangerZones = data;
-	  $('#output').text(JSON.stringify(dangerZones));
-  });
-  $('#testing').text(JSON.stringify(status));
-
+	status = $.getJSON(file, function(data) {
+		dangerZones = data;
+		if (debug) {
+			$('#output').text(JSON.stringify(dangerZones));
+		}
+	});
+	if (debug) {
+		$('#testing').text(JSON.stringify(status));
+	}
 };
-
-
-localCheckDanger = function (position) {
-			$('warning').text("Called!");
-
-     var here = turf.point([position.coords.longitude, position.coords.latitude]);
+localCheckDanger = function(position) {
+	$('warning').text("Called!");
+	var here = turf.point([position.coords.longitude, position.coords.latitude]);
 	return turf.inside(here, dangerZones);
 }
