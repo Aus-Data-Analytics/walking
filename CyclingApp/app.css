@@ -26,6 +26,8 @@ div.nostatus {
 	padding: 5px;
 }
 
+/* Danger mode */
+
 div.alert {
 	background-color: red;
 	color: white;
@@ -37,6 +39,21 @@ div.alert #warningmsg {
 	border-color: #600;
 }
 
+/* Caution mode */
+
+div.caution {
+	background-color: yellow;
+	color: black;
+	border-color: orange;
+}
+
+div.caution #warningmsg {
+	border: thin solid;
+	border-color: orange;
+}
+
+/* All clear mode */
+
 div.noalert {
 	background-color: green;
 	color: white;
@@ -47,6 +64,8 @@ div.noalert #warningmsg {
 	border: thin solid;
 	border-color: #060;
 }
+
+/* Unknown, loading, network error mode */
 
 div.unknown {
 	background-color: #999;
