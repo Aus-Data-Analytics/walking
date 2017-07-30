@@ -1,25 +1,36 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Danger Zones
+    Cycle Safely
 {% endblock %}
 
 {% block main %}
-    <div>
-        <p id="currentLat">Initial value</p>
-        <p id="currentLon">Initial value</p>
-        <p id="status">None</p>
+    <div id='alertdisplay'>
+    <h1>Cycling Safety</h1>
+
+    <p>Current warning status:</p>
+      <div>
+    	  <p id="warning"><span id="warningmsg">Loading...</span></p>
+      </div>
     </div>
 
-    <div>
-        <p id="warning"></p>
-    </div>
+    <div id="debug" class="nodisplay">
+    <h2>Testing information</h2>
 
-    <div>
-        <p id="testing"></p>
-    </div>
+    <h3>Location</h3>
+      <div>
+    	  <p id="currentLat">Initial value</p>
+    	  	  <p id="currentLon">Initial value</p>
+    	  <p id="status">None</p>
+      </div>
 
-    <div>
-        <p id="output"></p>
+      <h3>Result of loading geo-JSON</h3>
+      <div>
+    	  <p id="testing"></p>
+      </div>
+
+      <div>
+    	  <p id="output"></p>
+      </div>
     </div>
 {% endblock %}
