@@ -2,6 +2,25 @@
 
 Warn when approaching black spots.
 
+## Dependencies
+
+The web server requires Flask and the geojson-utils package.
+
+The web app contains all the necessary dependencies (jQuery, turfjs).
+
+## Running
+
+All code required is in the ```walking/ServerApp``` directory.
+
+```
+MacBook:ServerApp stephen$ export FLASK_APP=app.py
+MacBook:ServerApp stephen$ flask run
+ * Serving Flask app "app"
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+```
+
+The navigate to ```http://127.0.0.1:5000/static/cycling.html```
+
 ## Testing Status
 
 ### Stand-Alone
