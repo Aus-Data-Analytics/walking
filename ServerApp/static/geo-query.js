@@ -1,7 +1,9 @@
-var debug = true;
+var debug = false;
 var localMode = false; // True for stand-alone app, false to call back to web service
 var demoMode = false; // Go into danger mode after a time period for demonstration purposes.
 var demoTimeStart = 5000; // ms to go to danger mode
+var demoCaution = 3000;
+var demoToDanger = 2000;
 var demoTimeDuration = 3000; // ms duration of danger mode
 
 var serviceUrl = "http://127.0.0.1:5000/check";
@@ -13,10 +15,19 @@ var file = "dangerzones.json";
 
 var dangerZones;
 var warningPlayed = false;
+var cautionPlayed = true;
 var allClearPlayed = true;
 
 var alertAudio = new Audio('alert.mp3');
+var cautionAudio = new Audio('alert.mp3'); // FIXME
 var allClearAudio = new Audio('all-clear.mp3');
+
+
+// Modes
+var allClearMode = 1;
+var cautionMode = 2;
+var dangerMode = 3;
+var unkMode = 4;
 
 window.onload = function() {
 	$('#warningmsg').text("Loading...");
@@ -29,7 +40,11 @@ window.onload = function() {
 			}
 			if (localMode) {
 				var here = turf.point([position.coords.longitude, position.coords.latitude]);
-				updateDisplay(turf.inside(here, turf.multiPolygon(dangerZones)))
+				var danger = allClearMode;
+				if (turf.inside(here, turf.multiPolygon(dangerZones))) {
+					danger = dangerMode;
+				}
+				updateDisplay(danger)
 			} else {
 				$.ajax({
 					url: serviceUrl,
@@ -41,7 +56,13 @@ window.onload = function() {
 					success: function(result) {
 						//console.log(result);
 						//response = JSON.parse(result);
-						updateDisplay(result.blackspot);
+						var danger = allClearMode;
+						if (result.danger_warning) {
+							danger = dangerMode;
+						} else if (result.school_warning) {
+							danger = cautionMode
+						}
+						updateDisplay(danger);
 					},
 					error: function(xhr) {
 						displayUnknownState();
@@ -64,12 +85,22 @@ window.onload = function() {
 	}
 	
 	if (demoMode) {
-		updateDisplay(false);
-		setTimeout(function() { updateDisplay(true);
-			setTimeout(function() { updateDisplay(false); }, demoTimeDuration);
+		updateDisplay(allClearMode);
+		setTimeout(function() { 
+			updateDisplay(cautionMode);
+			setTimeout(function() { 
+				updateDisplay(allClearMode)
+				setTimeout(function () {
+					updateDisplay(dangerMode);
+					setTimeout(function () {
+						updateDisplay(allClearMode);
+						}, demoTimeDuration);
+				}, demoToDanger); 
+				}, demoCaution);
 			
 			 }, demoTimeStart);
 	}
+	
 	if (debug) {
 		$('#status').text("Loaded");
 		$('#debug').removeClass("nodisplay")
@@ -85,7 +116,51 @@ window.onload = function() {
 	}
 };
 
-function updateDisplay(warning) {
+
+function updateDisplay(mode) {
+	if (mode == allClearMode) {
+		$('#warningmsg').text("Ride Carefully");
+		$('#alertdisplay').addClass("noalert");
+		$('#alertdisplay').removeClass("alert");
+		$('#alertdisplay').removeClass("caution");
+		$('#alertdisplay').removeClass("unknown");
+		if (!allClearPlayed) {
+			allClearAudio.play();
+			warningPlayed = false;
+			allClearPlayed = true;
+		}
+	} else if (mode == cautionMode) {
+		$('#warningmsg').text("Caution");
+		$('#alertdisplay').addClass("caution");
+		$('#alertdisplay').removeClass("noalert");
+		$('#alertdisplay').removeClass("alert");
+		$('#alertdisplay').removeClass("unknown");
+		if (!warningPlayed) {
+			cautionAudio.play();
+			warningPlayed = true;
+			allClearPlayed = false;
+		}
+	} else if (mode == dangerMode) {
+		$('#warningmsg').text("Danger!");
+		$('#alertdisplay').addClass("alert");
+		$('#alertdisplay').removeClass("noalert");
+		$('#alertdisplay').removeClass("caution");
+		$('#alertdisplay').removeClass("unknown");
+		if (!warningPlayed) {
+			alertAudio.play();
+			warningPlayed = true;
+			allClearPlayed = false;
+		}
+	} else if (mode == unkMode) {
+		$('#warningmsg').text("Network problem");
+		$('#alertdisplay').addClass("unknown");
+		$('#alertdisplay').removeClass("noalert");
+		$('#alertdisplay').removeClass("caution");
+		$('#alertdisplay').removeClass("alert");
+	}
+}
+
+function updateDisplayDanger(warning) {
 	if (warning) {
 		$('#warningmsg').text("Danger!");
 		$('#alertdisplay').addClass("alert");
@@ -109,9 +184,15 @@ function updateDisplay(warning) {
 	}
 }
 
+function displayCaution() {
+	
+	
+}
+
 function displayUnknownState() {
 	$('#warningmsg').text("Network problem");
 	$('#alertdisplay').addClass("unknown");
 	$('#alertdisplay').removeClass("noalert");
 	$('#alertdisplay').removeClass("alert");
 }
+
