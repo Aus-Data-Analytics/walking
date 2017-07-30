@@ -34,14 +34,19 @@ states.
 ## Testing Status
 
 ### Web-App
-Tested using a web service for danger information:
+Tested using a web service (running locally) for danger information:
 * Mac (macOS 10.12.6):
-   * Safari 10.1.2 - access location appears unreliable for reasons TBD
+   * Safari 10.1.2 - access to location appears unreliable for reasons TBD
    * Firefox 53.0.3 (64-bit) - OK
    * Chrome 60.0.3112.78 (Official Build) (64-bit) - OK
 * Windows 10:
    * Chrome 59 - OK
 
+Using a web service not running locally can result in the browser rejecting access to location services for websites not loaded
+over a secure connection (https). Demo mode works fine.
+
+In demo mode, it has been tested on both Android and iOS mobile devices.
+   
 ### Stand-Alone
 Tested in "stand alone" mode (not using a web service for danger information. This is mainly for development use.
 
