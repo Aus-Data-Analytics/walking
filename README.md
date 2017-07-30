@@ -21,6 +21,12 @@ MacBook:ServerApp stephen$ flask run
 
 Then navigate to the site, for example (from above) ```http://127.0.0.1:5000/static/cycling.html```
 
+## Configuration
+
+The JavaScript file has a ```demoMode``` flag at the beginning of the script. If this is set to ```true```
+the page will not request access to location services but will provide a demo of the three warning 
+states.
+
 ## Testing Status
 
 ### Web-App
