@@ -1,5 +1,9 @@
 var debug = true;
 var localMode = false; // True for stand-alone app, false to call back to web service
+var demoMode = false; // Go into danger mode after a time period for demonstration purposes.
+var demoTimeStart = 5000; // ms to go to danger mode
+var demoTimeDuration = 3000; // ms duration of danger mode
+
 var serviceUrl = "http://127.0.0.1:5000/check";
 var file = "dangerzones.json";
 // These are for testing:
@@ -54,7 +58,18 @@ window.onload = function() {
 			//   2: position unavailable (error response from location provider)
 			//   3: timed out
 		};
-	navigator.geolocation.watchPosition(geoSuccess, geoError);
+		
+	if (!demoMode) {
+		navigator.geolocation.watchPosition(geoSuccess, geoError);
+	}
+	
+	if (demoMode) {
+		updateDisplay(false);
+		setTimeout(function() { updateDisplay(true);
+			setTimeout(function() { updateDisplay(false); }, demoTimeDuration);
+			
+			 }, demoTimeStart);
+	}
 	if (debug) {
 		$('#status').text("Loaded");
 		$('#debug').removeClass("nodisplay")
