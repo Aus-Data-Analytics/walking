@@ -23,7 +23,10 @@ MacBook:ServerApp stephen$ flask run
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
 
-Then navigate to the site, for example (from above) ```http://127.0.0.1:5000/static/cycling.html```
+Then navigate to the site, for example (from above) ```http://127.0.0.1:5000/warning```
+
+The ```CyclingApp``` folder contains a development version of the code. Copies of the audio files used with
+their original file names are also provided.
 
 ## Configuration
 
