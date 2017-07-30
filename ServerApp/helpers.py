@@ -2,13 +2,13 @@ import json
 from geojson_utils import point_in_multipolygon
 from geojson import Point
 
-def zone_checker(lat, lon):
+def zone_checker(lat, lon, polygon_file):
     # load danger zones multipolygon file
-    blackspot_file = 'dangerzones.json' # danger zones
+    #blackspot_file = 'dangerzones.json' # danger zones
     #blackspot_file = 'canberra.geojson' # for testing
     #blackspot_file = 'switzerland.geojson' # for testing
 
-    file = open(blackspot_file, 'r')
+    file = open(polygon_file, 'r')
     zones_str = file.read()
     file.close()
 
