@@ -1,34 +1,28 @@
 var debug = false;
-var localMode = false; // True for stand-alone app, false to call back to web service
+var localMode = true; // True for stand-alone app, false to call back to web service
 var demoMode = false; // Go into danger mode after a time period for demonstration purposes.
 var demoTimeStart = 5000; // ms to go to danger mode
 var demoCaution = 3000;
 var demoToDanger = 2000;
 var demoTimeDuration = 3000; // ms duration of danger mode
-
 var serviceUrl = "http://127.0.0.1:5000/check";
 var file = "dangerzones.json";
 // These are for testing:
 //var file = "canberra.geojson"
 //var file = "dz1.json"
 //var file = "switzerland.geojson"
-
 var dangerZones;
 var warningPlayed = false;
 var cautionPlayed = true;
 var allClearPlayed = true;
-
 var alertAudio = new Audio('alert.mp3');
 var cautionAudio = new Audio('caution.mp3');
 var allClearAudio = new Audio('all-clear.mp3');
-
-
 // Modes
 var allClearMode = 1;
 var cautionMode = 2;
 var dangerMode = 3;
 var unkMode = 4;
-
 window.onload = function() {
 	$('#warningmsg').text("Loading...");
 	$('#alertdisplay').addClass("unknown");
@@ -79,43 +73,40 @@ window.onload = function() {
 			//   2: position unavailable (error response from location provider)
 			//   3: timed out
 		};
-		
 	if (!demoMode) {
 		navigator.geolocation.watchPosition(geoSuccess, geoError);
 	}
-	
 	if (demoMode) {
 		updateDisplay(allClearMode);
-		setTimeout(function() { 
+		setTimeout(function() {
 			updateDisplay(cautionMode);
-			setTimeout(function() { 
+			setTimeout(function() {
 				updateDisplay(allClearMode)
-				setTimeout(function () {
+				setTimeout(function() {
 					updateDisplay(dangerMode);
-					setTimeout(function () {
+					setTimeout(function() {
 						updateDisplay(allClearMode);
-						}, demoTimeDuration);
-				}, demoToDanger); 
-				}, demoCaution);
-			
-			 }, demoTimeStart);
+					}, demoTimeDuration);
+				}, demoToDanger);
+			}, demoCaution);
+		}, demoTimeStart);
 	}
-	
 	if (debug) {
 		$('#status').text("Loaded");
 		$('#debug').removeClass("nodisplay")
 	}
-	status = $.getJSON(file, function(data) {
-		dangerZones = data;
+	if (localMode) {
+		status = $.getJSON(file, function(data) {
+			dangerZones = data;
+			if (debug) {
+				$('#output').text(JSON.stringify(dangerZones));
+			}
+		});
 		if (debug) {
-			$('#output').text(JSON.stringify(dangerZones));
+			$('#testing').text(JSON.stringify(status));
 		}
-	});
-	if (debug) {
-		$('#testing').text(JSON.stringify(status));
 	}
 };
-
 
 function updateDisplay(mode) {
 	if (mode == allClearMode) {
@@ -184,10 +175,7 @@ function updateDisplayDanger(warning) {
 	}
 }
 
-function displayCaution() {
-	
-	
-}
+function displayCaution() {}
 
 function displayUnknownState() {
 	$('#warningmsg').text("Network problem");
@@ -195,4 +183,3 @@ function displayUnknownState() {
 	$('#alertdisplay').removeClass("noalert");
 	$('#alertdisplay').removeClass("alert");
 }
-
