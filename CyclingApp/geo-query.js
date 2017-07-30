@@ -1,5 +1,5 @@
 var debug = false;
-var localMode = true; // True for stand-alone app, false to call back to web service
+var localMode = false; // True for stand-alone app, false to call back to web service
 var demoMode = false; // Go into danger mode after a time period for demonstration purposes.
 var demoTimeStart = 5000; // ms to go to danger mode
 var demoCaution = 3000;
@@ -19,7 +19,7 @@ var cautionPlayed = true;
 var allClearPlayed = true;
 
 var alertAudio = new Audio('alert.mp3');
-var cautionAudio = new Audio('alert.mp3'); // FIXME
+var cautionAudio = new Audio('caution.mp3');
 var allClearAudio = new Audio('all-clear.mp3');
 
 

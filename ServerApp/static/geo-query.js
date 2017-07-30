@@ -19,7 +19,7 @@ var cautionPlayed = true;
 var allClearPlayed = true;
 
 var alertAudio = new Audio('alert.mp3');
-var cautionAudio = new Audio('alert.mp3'); // FIXME
+var cautionAudio = new Audio('caution.mp3');
 var allClearAudio = new Audio('all-clear.mp3');
 
 
