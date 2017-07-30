@@ -1,6 +1,10 @@
-var debug = false;
-var localMode = true; // True for stand-alone app, false to call back to web service
-var serviceUrl = "http://localhost/check";
+var debug = true;
+var localMode = false; // True for stand-alone app, false to call back to web service
+var demoMode = false; // Go into danger mode after a time period for demonstration purposes.
+var demoTimeStart = 5000; // ms to go to danger mode
+var demoTimeDuration = 3000; // ms duration of danger mode
+
+var serviceUrl = "http://127.0.0.1:5000/check";
 var file = "dangerzones.json";
 // These are for testing:
 //var file = "canberra.geojson"
@@ -19,8 +23,8 @@ window.onload = function() {
 	$('#alertdisplay').addClass("unknown");
 	var geoSuccess = function(position) {
 			if (debug) {
-				$('#currentLat').text(startPos.coords.latitude);
-				$('#currentLon').text(startPos.coords.longitude);
+				$('#currentLat').text(position.coords.latitude);
+				$('#currentLon').text(position.coords.longitude);
 				$('#status').text("Location updated");
 			}
 			if (localMode) {
@@ -32,11 +36,12 @@ window.onload = function() {
 					type: "get",
 					data: {
 						lat: position.coords.latitude,
-						lon: startPos.coords.longitude
+						lon: position.coords.longitude
 					},
 					success: function(result) {
-						response = JSON.parse(result);
-						updateDisplay(response.blackspot);
+						//console.log(result);
+						//response = JSON.parse(result);
+						updateDisplay(result.blackspot);
 					},
 					error: function(xhr) {
 						displayUnknownState();
@@ -53,7 +58,18 @@ window.onload = function() {
 			//   2: position unavailable (error response from location provider)
 			//   3: timed out
 		};
-	navigator.geolocation.watchPosition(geoSuccess, geoError);
+		
+	if (!demoMode) {
+		navigator.geolocation.watchPosition(geoSuccess, geoError);
+	}
+	
+	if (demoMode) {
+		updateDisplay(false);
+		setTimeout(function() { updateDisplay(true);
+			setTimeout(function() { updateDisplay(false); }, demoTimeDuration);
+			
+			 }, demoTimeStart);
+	}
 	if (debug) {
 		$('#status').text("Loaded");
 		$('#debug').removeClass("nodisplay")

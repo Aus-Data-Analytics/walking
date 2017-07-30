@@ -1,0 +1,63 @@
+body, html {
+  height: 100%;
+}
+
+body {
+	background-color: #999;
+	padding: 0px;
+}
+
+div.nostatus {
+	background-color: #000;
+}
+
+#alertdisplay {
+	border-style: solid;
+	border-width: 10px;
+	padding: 10px;
+	height: 100%;
+}
+
+#warning {
+	text-align: center;
+	font-size: 300%;
+}
+#warningmsg {
+	padding: 5px;
+}
+
+div.alert {
+	background-color: red;
+	color: white;
+	border-color: #600;
+}
+
+div.alert #warningmsg {
+	border: thin solid;
+	border-color: #600;
+}
+
+div.noalert {
+	background-color: green;
+	color: white;
+	border-color: #030;
+}
+
+div.noalert #warningmsg {
+	border: thin solid;
+	border-color: #060;
+}
+
+div.unknown {
+	background-color: #999;
+	color: black;
+	border-color: 666;
+}
+
+div.unknown #warningmsg {
+	border: none;
+}
+
+div.nodisplay {
+	display: none;
+}
