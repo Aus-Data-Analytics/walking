@@ -1,6 +1,6 @@
-var debug = false;
-var localMode = true; // True for stand-alone app, false to call back to web service
-var serviceUrl = "http://localhost/check";
+var debug = true;
+var localMode = false; // True for stand-alone app, false to call back to web service
+var serviceUrl = "http://127.0.0.1:5000/check";
 var file = "dangerzones.json";
 // These are for testing:
 //var file = "canberra.geojson"
@@ -19,8 +19,8 @@ window.onload = function() {
 	$('#alertdisplay').addClass("unknown");
 	var geoSuccess = function(position) {
 			if (debug) {
-				$('#currentLat').text(startPos.coords.latitude);
-				$('#currentLon').text(startPos.coords.longitude);
+				$('#currentLat').text(position.coords.latitude);
+				$('#currentLon').text(position.coords.longitude);
 				$('#status').text("Location updated");
 			}
 			if (localMode) {
@@ -32,11 +32,12 @@ window.onload = function() {
 					type: "get",
 					data: {
 						lat: position.coords.latitude,
-						lon: startPos.coords.longitude
+						lon: position.coords.longitude
 					},
 					success: function(result) {
-						response = JSON.parse(result);
-						updateDisplay(response.blackspot);
+						//console.log(result);
+						//response = JSON.parse(result);
+						updateDisplay(result.blackspot);
 					},
 					error: function(xhr) {
 						displayUnknownState();
