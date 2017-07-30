@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, send_from_directory
 from helpers import *
 
 # Zone files
-crash_sites_file = "dangerszones.json"
+crash_sites_file = "DangerZone_70m.json"
 
 #Web App
 app = Flask(__name__)
