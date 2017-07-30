@@ -24,9 +24,13 @@ def zone_checker(lat, lon, polygon_file):
 
 if __name__ == "__main__":
     # use test coordinates
-    test = zone_checker(149.144, -35.276, "test.json")
+    test = zone_checker(149.144, -35.276, "danger_zones.json")
     print("Positive Hit: " + str(test))
-    test = zone_checker(149.8, -35.311173, "test.json")
+    test = zone_checker(149.8, -35.311173, "danger_zones.json")
     print("Negative Hit: " + str(test))
-    test = zone_checker(149.8, -35.311173, "canberra.geojson")
+    test = zone_checker(149.144, -35.276, "school_zones.json")
+    print("Positive Hit: " + str(test))
+    test = zone_checker(149.8, -35.311173, "school_zones.json")
+    print("Negative Hit: " + str(test))
+    test = zone_checker(149.144, -35.276, "canberra.geojson")
     print("Script test: " + str(test))
