@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route('/<path:path>')
 def send_file(path):
-    return send_from_directory('', path)
+    return send_from_directory('static', path)
 
 @app.route('/warning')
 def warning():
