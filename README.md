@@ -2,6 +2,10 @@
 
 Warn when approaching cycling black spots.
 
+The app displays a green display during normal operation. It will play a warning tone when entering the area around a high accident zone and display a red screen with a warning. The screen will return to green and and "all clear" tone is played when the rider leaves the area surrounding the high accident zone.
+
+Additionally, an amber screen and a different warning tone is displayed when the rider enters the region around a school. This is because with school buses, parents picking up children, etc., there is likely to be congestion which could be hazardous. Again, an all clear is given when the rider leaves this area.
+
 ## Dependencies
 
 The web server requires Flask and the geojson-utils package.
