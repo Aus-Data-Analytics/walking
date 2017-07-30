@@ -28,7 +28,7 @@ if __name__ == "__main__":
     print("Positive Hit: " + str(test))
     test = zone_checker(149.8, -35.311173, "danger_zones.json")
     print("Negative Hit: " + str(test))
-    test = zone_checker(149.144, -35.276, "school_zones.json")
+    test = zone_checker(149.126, -35.265, "school_zones.json")
     print("Positive Hit: " + str(test))
     test = zone_checker(149.8, -35.311173, "school_zones.json")
     print("Negative Hit: " + str(test))
