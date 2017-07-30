@@ -4,9 +4,9 @@ from geojson import Point
 
 def zone_checker(lat, lon, polygon_file):
     # load danger zones multipolygon file
-    #blackspot_file = 'dangerzones.json' # danger zones
-    #blackspot_file = 'canberra.geojson' # for testing
-    #blackspot_file = 'switzerland.geojson' # for testing
+    #polygon_file = 'dangerzones.json' # danger zones
+    #polygon_file = 'canberra.geojson' # for testing
+    #polygon_file = 'switzerland.geojson' # for testing
 
     file = open(polygon_file, 'r')
     zones_str = file.read()
@@ -24,5 +24,13 @@ def zone_checker(lat, lon, polygon_file):
 
 if __name__ == "__main__":
     # use test coordinates
-    test = zone_checker(149.141787, -35.311173)
-    print(test)
+    test = zone_checker(149.144, -35.276, "danger_zones.json")
+    print("Positive Hit: " + str(test))
+    test = zone_checker(149.8, -35.311173, "danger_zones.json")
+    print("Negative Hit: " + str(test))
+    test = zone_checker(149.126, -35.265, "school_zones.json")
+    print("Positive Hit: " + str(test))
+    test = zone_checker(149.8, -35.311173, "school_zones.json")
+    print("Negative Hit: " + str(test))
+    test = zone_checker(149.144, -35.276, "canberra.geojson")
+    print("Script test: " + str(test))

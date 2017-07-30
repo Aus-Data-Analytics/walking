@@ -2,7 +2,8 @@ from flask import Flask, render_template, url_for, redirect, send_from_directory
 from helpers import *
 
 # Zone files
-crash_sites_file = "dangerszones.json"
+danger_zones_file = "danger_zones.json"
+school_zones_file = "school_zones.json"
 
 #Web App
 app = Flask(__name__)
@@ -20,10 +21,12 @@ def check_geo():
     lat = float(request.args.get('lat'))
     lon =float(request.args.get('lon'))
 
-    crash_warning = zone_checker(lat, lon, crash_sites_file)
+    danger_warning = zone_checker(lat, lon, danger_zones_file)
+    school_warning = zone_checker(lat, lon, school_zones_file)
 
     return jsonify(
         lat = lat,
         lon = lon,
-        crash_site = crash_warning
+        danger_zone = danger_warning,
+        school_zone = school_warning
     )
